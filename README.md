@@ -12,17 +12,25 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
+> **[v1.0.0-dev.1](https://github.com/haukist/morphe-patches-smartnews/releases/tag/v1.0.0-dev.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;3 patches total
+<details open>
+<summary>📦 SmartNews&nbsp;&nbsp;•&nbsp;&nbsp;3 patches</summary>
+<br>
 
-<!-- Do not modify this section by hand. The patch list is generated when release.yml creates a new release.
-     
-     If you wish for the patches list to be collapsed, then remove the word 'EXPANDED' from the comment tag above.
+**Package name:** `jp.gocro.smartnews.android`
 
-     If you wish to manually keep this list updated then remove the PATCHES_START and PATCHES_END 
-     comment blocks entirely. -->
+**🎯 Supported versions:**
 
-#### A list of your patches will automatically be shown here after your first patches release is created.
+| 26.10.30 |
+| :---: |
 
-&nbsp;
+| 💊&nbsp;Patch | 📜&nbsp;Description | ⚙️&nbsp;Options |
+|----------|----------------|-----------|
+| [Direct article share URL](#direct-article-share-url) | Shares and copies the original article URL directly instead of SmartNews tracking redirect links (l.smartnews.com). |  |
+| [Disable ads and trackers](#disable-ads-and-trackers) | Disables first-party and third-party advertisements, analytics, and tracking SDKs in SmartNews. |  |
+| [Popup share menu](#popup-share-menu) | Replaces the top-right custom share bottom sheet with the compact PopupMenu used in web mode. |  |
+
+</details>
 
 <!-- PATCHES_END -->
 
