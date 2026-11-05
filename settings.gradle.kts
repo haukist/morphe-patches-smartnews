@@ -1,7 +1,8 @@
-rootProject.name = "morphe-patches-template"
+rootProject.name = "morphe-patches-smartnews"
 
 pluginManagement {
     repositories {
+        mavenLocal()
         gradlePluginPortal()
         google()
         maven {
@@ -17,5 +18,5 @@ pluginManagement {
 }
 
 plugins {
-    id("app.morphe.patches") version "2.1.0"
+    id("app.morphe.patches") version "2.0.0"
 }

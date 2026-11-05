@@ -1,12 +1,11 @@
-group = "app.template"
+group = "app.haukist.smartnews"
 
 patches {
-    // TODO: Update this section with your project details.
     about {
-        name = "UserXYZ Patches"
-        description = "Patches for apps I like"
-        source = "git@github.com:UserXYZ/morphe-patches.git"
-        author = "Awesome dev"
+        name = "SmartNews Patches"
+        description = "Morphe patches for SmartNews to remove ads and trackers"
+        source = "git@github.com:haukist/morphe-patches-smartnews.git"
+        author = "haukist"
         contact = "na"
         website = "na"
         license = "GPLv3"
@@ -20,9 +19,20 @@ val patchListGeneratorClasspath = configurations.create("patchListGeneratorClass
 dependencies {
     compileOnly(libs.gson)
     patchListGeneratorClasspath(libs.gson)
+    testImplementation(kotlin("test"))
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 }
 
 tasks {
+    test {
+        useJUnitPlatform()
+        dependsOn(jar)
+        testLogging {
+            events("PASSED", "SKIPPED", "FAILED", "STANDARD_OUT", "STANDARD_ERROR")
+            showStandardStreams = true
+        }
+    }
+
     register<JavaExec>("generatePatchesList") {
         description = "Build patch with patch list"
 
