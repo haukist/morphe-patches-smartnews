@@ -399,5 +399,54 @@ val disableAdsAndTrackersPatch = bytecodePatch(
         ).forEach { it.method.returnEarly() }
 
         DocomoOidcMeasurementBuildUrlFingerprint.method.returnEarly("")
+
+        // (21) SmartView WebView Tracker & Google Tag Manager (GTM) Interception
+        // Blocks Google Tag Manager, Google Analytics, DoubleClick, and other ad/tracker domains from loading in WebViewWrapper / SmartView.
+        WebViewUrlFilterShouldBlockFingerprint.method.addInstructions(
+            0,
+            """
+                if-nez p1, :cond_check_orig
+                const-string v0, "googletagmanager."
+                invoke-virtual {p1, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+                move-result v0
+                if-eqz v0, :cond_check_ga
+                const/4 v0, 0x1
+                return v0
+
+                :cond_check_ga
+                const-string v0, "google-analytics."
+                invoke-virtual {p1, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+                move-result v0
+                if-eqz v0, :cond_check_ga_sub
+                const/4 v0, 0x1
+                return v0
+
+                :cond_check_ga_sub
+                const-string v0, "analytics.google."
+                invoke-virtual {p1, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+                move-result v0
+                if-eqz v0, :cond_check_dc
+                const/4 v0, 0x1
+                return v0
+
+                :cond_check_dc
+                const-string v0, "doubleclick.net"
+                invoke-virtual {p1, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+                move-result v0
+                if-eqz v0, :cond_check_gas
+                const/4 v0, 0x1
+                return v0
+
+                :cond_check_gas
+                const-string v0, "googleadservices.com"
+                invoke-virtual {p1, v0}, Ljava/lang/String;->contains(Ljava/lang/CharSequence;)Z
+                move-result v0
+                if-eqz v0, :cond_check_orig
+                const/4 v0, 0x1
+                return v0
+
+                :cond_check_orig
+            """
+        )
     }
 }

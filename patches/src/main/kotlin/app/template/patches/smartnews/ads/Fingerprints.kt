@@ -1675,3 +1675,20 @@ internal object DocomoOidcMeasurementBuildUrlFingerprint : Fingerprint(
     parameters = emptyList(),
     strings = listOf("www.google-analytics.com", "/mp/collect")
 )
+
+
+// ============================================================================
+// 21. WebViewWrapper / SmartView Web Tracker & GTM URL Interception
+// ============================================================================
+
+/**
+ * Matches `vzh.a(String url): boolean` which evaluates whether a URL should be intercepted/blocked in WebViewWrapper.
+ */
+internal object WebViewUrlFilterShouldBlockFingerprint : Fingerprint(
+    returnType = "Z",
+    parameters = listOf("Ljava/lang/String;"),
+    strings = listOf("http://", "https://"),
+    custom = { method, classDef ->
+        classDef.fields.count() == 3 && classDef.methods.any { it.name == "b" && it.parameterTypes == listOf("Ljava/lang/String;") }
+    }
+)
