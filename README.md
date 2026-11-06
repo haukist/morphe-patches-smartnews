@@ -12,7 +12,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 ## 🩹 Patches list
 
 <!-- PATCHES_START EXPANDED -->
-> **[v1.0.0](https://github.com/haukist/morphe-patches-smartnews/releases/tag/v1.0.0)**&nbsp;&nbsp;•&nbsp;&nbsp;`main`&nbsp;&nbsp;•&nbsp;&nbsp;3 patches total
+> **[v1.1.0-dev.1](https://github.com/haukist/morphe-patches-smartnews/releases/tag/v1.1.0-dev.1)**&nbsp;&nbsp;•&nbsp;&nbsp;`dev`&nbsp;&nbsp;•&nbsp;&nbsp;3 patches total
 <details open>
 <summary>📦 SmartNews&nbsp;&nbsp;•&nbsp;&nbsp;3 patches</summary>
 <br>
@@ -28,7 +28,7 @@ Click here to add these patches to Morphe: https://morphe.software/add-source?gi
 |----------|----------------|-----------|
 | [Direct article share URL](#direct-article-share-url) | Shares and copies the original article URL directly instead of SmartNews tracking redirect links (l.smartnews.com). |  |
 | [Disable ads and trackers](#disable-ads-and-trackers) | Disables first-party and third-party advertisements, analytics, and tracking SDKs in SmartNews. |  |
-| [Popup share menu](#popup-share-menu) | Replaces the top-right custom share bottom sheet with the compact PopupMenu used in web mode. |  |
+| [Popup share menu](#popup-share-menu) | Restores the legacy popup share menu when tapping the top-right share button, replacing the default system share sheet (identical to the menu used in web mode). |  |
 
 </details>
 
