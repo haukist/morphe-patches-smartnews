@@ -3,6 +3,8 @@ package app.template.patches.smartnews.ads
 import app.morphe.patcher.Fingerprint
 import app.morphe.patcher.methodCall
 import app.morphe.patcher.string
+import com.android.tools.smali.dexlib2.iface.instruction.ReferenceInstruction
+import com.android.tools.smali.dexlib2.iface.reference.MethodReference
 
 // ============================================================================
 // 1. SmartNews First-Party Ad & Feature Flag Fingerprints
@@ -1770,5 +1772,79 @@ internal object WebViewUrlFilterShouldBlockFingerprint : Fingerprint(
     strings = listOf("http://", "https://"),
     custom = { method, classDef ->
         classDef.fields.count() == 3 && classDef.methods.any { it.name == "b" && it.parameterTypes == listOf("Ljava/lang/String;") }
+    }
+)
+
+
+/** Initialize the existing tracker filter once, before any article requests. */
+internal object WebViewWrapperStaticInitializerFingerprint : Fingerprint(
+    definingClass = "Ljp/gocro/smartnews/android/view/WebViewWrapper;",
+    name = "<clinit>",
+    returnType = "V",
+    parameters = emptyList()
+)
+
+/**
+ * Matches `WebViewWrapper`'s dedicated `WebViewClient` (e.g. `d1j.shouldInterceptRequest(WebView, WebResourceRequest)`).
+ * Intercepts requests directly at the client entrypoint before any `WebViewWrapper.U` null-checks.
+ */
+internal object WebViewWrapperClientInterceptRequestFingerprint : Fingerprint(
+    name = "shouldInterceptRequest",
+    returnType = "Landroid/webkit/WebResourceResponse;",
+    parameters = listOf("Landroid/webkit/WebView;", "Landroid/webkit/WebResourceRequest;"),
+    custom = { method, classDef ->
+        classDef.superclass == "Landroid/webkit/WebViewClient;" &&
+        classDef.fields.any { it.type == "Ljp/gocro/smartnews/android/view/WebViewWrapper;" }
+    }
+)
+
+/**
+ * Matches `WebViewWrapper`'s dedicated `WebViewClient` (e.g. `d1j.shouldInterceptRequest(WebView, String)`).
+ */
+internal object WebViewWrapperClientInterceptUrlFingerprint : Fingerprint(
+    name = "shouldInterceptRequest",
+    returnType = "Landroid/webkit/WebResourceResponse;",
+    parameters = listOf("Landroid/webkit/WebView;", "Ljava/lang/String;"),
+    custom = { method, classDef ->
+        classDef.superclass == "Landroid/webkit/WebViewClient;" &&
+        classDef.fields.any { it.type == "Ljp/gocro/smartnews/android/view/WebViewWrapper;" }
+    }
+)
+
+/** Initialization point used only by the opt-in local Sentry diagnostic build. */
+internal object WebViewWrapperInitializeDiagnosticsFingerprint : Fingerprint(
+    definingClass = "Ljp/gocro/smartnews/android/view/WebViewWrapper;",
+    returnType = "V",
+    parameters = emptyList(),
+    custom = { method, _ ->
+        method.implementation?.instructions?.filterIsInstance<ReferenceInstruction>()
+            ?.mapNotNull { it.reference as? MethodReference }?.any {
+                it.definingClass == "Landroid/webkit/WebView;" && it.name == "setWebViewClient"
+            } == true
+    }
+)
+
+
+/** Shared page client observed on the home Morning Package WebView. */
+internal object SharedPageWebViewClientInterceptRequestFingerprint : Fingerprint(
+    name = "shouldInterceptRequest",
+    returnType = "Landroid/webkit/WebResourceResponse;",
+    parameters = listOf("Landroid/webkit/WebView;", "Landroid/webkit/WebResourceRequest;"),
+    custom = { _, classDef ->
+        classDef.superclass == "Landroid/webkit/WebViewClient;" &&
+            classDef.fields.any { it.type == "Ljava/lang/Boolean;" } &&
+            classDef.methods.any { method ->
+                method.name == "onPageFinished" &&
+                    method.implementation?.instructions?.filterIsInstance<ReferenceInstruction>()
+                        ?.mapNotNull { it.reference as? MethodReference }?.any {
+                            it.definingClass == "Landroid/webkit/WebView;" && it.name == "getOriginalUrl"
+                        } == true
+            } && classDef.methods.any { method ->
+                method.name == "onReceivedError" &&
+                    method.implementation?.instructions?.filterIsInstance<ReferenceInstruction>()
+                        ?.mapNotNull { it.reference as? MethodReference }?.any {
+                            it.definingClass == "Landroid/webkit/WebResourceRequest;" && it.name == "isForMainFrame"
+                        } == true
+            }
     }
 )
