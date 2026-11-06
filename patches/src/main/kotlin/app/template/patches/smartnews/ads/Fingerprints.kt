@@ -573,6 +573,86 @@ internal object AmazonApsAdRequestLoadAdFingerprint : Fingerprint(
 )
 
 /**
+ * Amazon DTB device registration (DtbDeviceRegistration.initializeAds(): void).
+ */
+internal object AmazonDtbDeviceRegistrationInitializeAdsFingerprint : Fingerprint(
+    definingClass = "Lcom/amazon/device/ads/DtbDeviceRegistration;",
+    name = "initializeAds",
+    returnType = "V",
+    parameters = emptyList()
+)
+
+/**
+ * Amazon DTB device registration verification (DtbDeviceRegistration.verifyRegistration(): void).
+ */
+internal object AmazonDtbDeviceRegistrationVerifyRegistrationFingerprint : Fingerprint(
+    definingClass = "Lcom/amazon/device/ads/DtbDeviceRegistration;",
+    name = "verifyRegistration",
+    returnType = "V",
+    parameters = emptyList()
+)
+
+/**
+ * Amazon DTB device registration config (DtbDeviceRegistration.registerConfig(String): boolean).
+ */
+internal object AmazonDtbDeviceRegistrationRegisterConfigFingerprint : Fingerprint(
+    definingClass = "Lcom/amazon/device/ads/DtbDeviceRegistration;",
+    name = "registerConfig",
+    returnType = "Z",
+    parameters = listOf("Ljava/lang/String;")
+)
+
+/**
+ * Amazon DTB SIS ping (DtbDeviceRegistration.pingSis(String, String): void).
+ */
+internal object AmazonDtbDeviceRegistrationPingSisFingerprint : Fingerprint(
+    definingClass = "Lcom/amazon/device/ads/DtbDeviceRegistration;",
+    name = "pingSis",
+    returnType = "V",
+    parameters = listOf("Ljava/lang/String;", "Ljava/lang/String;")
+)
+
+/**
+ * Amazon DTB metrics submitter (DtbMetrics$Submitter.submitMetrics(): void).
+ */
+internal object AmazonDtbMetricsSubmitterSubmitMetricsFingerprint : Fingerprint(
+    definingClass = "Lcom/amazon/device/ads/DtbMetrics\$Submitter;",
+    name = "submitMetrics",
+    returnType = "V",
+    parameters = emptyList()
+)
+
+/**
+ * Amazon DTB metrics submitter with instance (DtbMetrics$Submitter.submitMetrics(DtbMetrics): void).
+ */
+internal object AmazonDtbMetricsSubmitterSubmitMetricsWithArgFingerprint : Fingerprint(
+    definingClass = "Lcom/amazon/device/ads/DtbMetrics\$Submitter;",
+    name = "submitMetrics",
+    returnType = "V",
+    parameters = listOf("Lcom/amazon/device/ads/DtbMetrics;")
+)
+
+/**
+ * Amazon DTB HTTP client executeGET (DtbHttpClient.executeGET(int): void).
+ */
+internal object AmazonDtbHttpClientExecuteGetFingerprint : Fingerprint(
+    definingClass = "Lcom/amazon/device/ads/DtbHttpClient;",
+    name = "executeGET",
+    returnType = "V",
+    parameters = listOf("I")
+)
+
+/**
+ * Amazon DTB HTTP client executePOST (DtbHttpClient.executePOST(int): void).
+ */
+internal object AmazonDtbHttpClientExecutePostFingerprint : Fingerprint(
+    definingClass = "Lcom/amazon/device/ads/DtbHttpClient;",
+    name = "executePOST",
+    returnType = "V",
+    parameters = listOf("I")
+)
+
+/**
  * 3. Facebook Ads (`com.facebook.ads.AudienceNetworkAds`).
  */
 internal object FacebookAudienceNetworkInitializeFingerprint : Fingerprint(

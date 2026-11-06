@@ -126,6 +126,7 @@ val disableAdsAndTrackersPatch = bytecodePatch(
         listOf(
             AmazonAdRegistrationIsInitializedFingerprint,
             AmazonApsIsInitializedFingerprint,
+            AmazonDtbDeviceRegistrationRegisterConfigFingerprint,
         ).forEach { it.method.returnEarly(false) }
 
         listOf(
@@ -134,6 +135,13 @@ val disableAdsAndTrackersPatch = bytecodePatch(
             AmazonApsInitializeFingerprint,
             AmazonApsInitializeWithConfigFingerprint,
             AmazonApsAdRequestLoadAdFingerprint,
+            AmazonDtbDeviceRegistrationInitializeAdsFingerprint,
+            AmazonDtbDeviceRegistrationVerifyRegistrationFingerprint,
+            AmazonDtbDeviceRegistrationPingSisFingerprint,
+            AmazonDtbMetricsSubmitterSubmitMetricsFingerprint,
+            AmazonDtbMetricsSubmitterSubmitMetricsWithArgFingerprint,
+            AmazonDtbHttpClientExecuteGetFingerprint,
+            AmazonDtbHttpClientExecutePostFingerprint,
         ).forEach { it.method.returnEarly() }
 
         // (3) Facebook Ads (Audience Network)
